@@ -66,7 +66,7 @@ if (isset($_POST["submit"])) {
     $date_time = date("Y-m-d H:i:s");
 
     // تحقق من صلاحية المستخدم للتعديل
-    if (isset($_SESSION["permission"]) && $_SESSION["permission"] == 'له حق التعديل') {
+    if (isset($_SESSION["permission"])) {
         // تحديث حالة العميل في جدول clients إلى modified
         $sql = "UPDATE clients SET status = 'modified' WHERE client_code = '$client_code'";
         if ($conn->query($sql) === true) {
