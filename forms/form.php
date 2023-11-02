@@ -25,10 +25,6 @@ if (isset($_POST['search'])) {
   if (!empty($_POST['search_code'])) {
     $search_code = $_POST['search_code'];
     
-    // باقي الكود كما هو
-  } else {
-    // إظهار رسالة خطأ للمستخدم
-    echo "<script>alert('يرجى إدخال كود العميل');</script>";
   }
 
 
