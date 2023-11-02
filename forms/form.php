@@ -5,9 +5,9 @@ session_start();
 
 // اتصال بقاعدة بيانات MySQL باستخدام متغيرات جلسة
 $servername = "localhost";
-$username = $_SESSION['username'];
-$password = $_SESSION['password'];
-$dbname = $_SESSION['dbname'];
+$username = "root";
+$password = "";
+$dbname = "form_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
