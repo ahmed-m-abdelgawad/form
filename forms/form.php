@@ -15,46 +15,88 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// // جلب بيانات العميل من قاعدة البيانات
+// // // جلب بيانات العميل من قاعدة البيانات
+// if (!empty($_POST["search_code"])) {
+//    $search_code = $_POST["search_code"];
+
+//     // تحقق من صلاحية المستخدم للتعديل
+//     if ($_SESSION[`permission`] == 'له حق التعديل') {
+//         // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
+//         $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
+//         $result = $conn->query($sql);
+
+//         if ($result->num_rows > 0) {
+//             // جلب اسم وكود العميل
+//             $row = $result->fetch_assoc();
+//             $client_name = $row["client_name"];
+//             $client_code = $row["client_code"];
+//         } else {
+//             // لا يوجد عميل بهذا الكود أو ينتمي إلى فرع آخر
+//             $client_name = "";
+//             $client_code = "";
+//         }
+
+//         // جلب قائمة أكواد العملاء المتاحة للبحث من جدول clients بناءً على كود الفرع الموجود في متغيرات جلسة
+//         $sql = "SELECT client_code FROM clients WHERE status = 'not modified' AND branch_code = '{$_SESSION["branch_code"]}'";
+//         $result = $conn->query($sql);
+
+//         if ($result->num_rows > 0) {
+//             // إنشاء مصفوفة لحفظ أكواد العملاء
+//             $client_codes = [];
+//             while ($row = $result->fetch_assoc()) {
+//                 // إضافة كود العميل إلى المصفوفة
+//                 $client_codes[] = $row["client_code"];
+//             }
+//         } else {
+//             // لا يوجد عملاء غير معدّلين أو ينتمون إلى فرع آخر
+//             $client_codes = [];
+//         }
+//     } else {
+//         // ليس للمستخدم حق التعديل
+//         echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
+//     }
+// }
+
+
 if (!empty($_POST["search_code"])) {
-   $search_code = $_POST["search_code"];
+  $search_code = $_POST["search_code"];
 
-    // تحقق من صلاحية المستخدم للتعديل
-    if ($_SESSION[`permission`] == 'له حق التعديل') {
-        // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
-        $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
-        $result = $conn->query($sql);
+   // Check if the user has permission to make modifications
+   if ($_SESSION["permission"] == 'allowed to modify') {
+       // Search for the client in the clients table based on the client code entered by the user and the branch code available in session variables
+       $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
+       $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            // جلب اسم وكود العميل
-            $row = $result->fetch_assoc();
-            $client_name = $row["client_name"];
-            $client_code = $row["client_code"];
-        } else {
-            // لا يوجد عميل بهذا الكود أو ينتمي إلى فرع آخر
-            $client_name = "";
-            $client_code = "";
-        }
+       if (isset($result) && $result->num_rows > 0) {
+           // Retrieve client name and code
+           $row = $result->fetch_assoc();
+           $client_name = $row["client_name"];
+           $client_code = $row["client_code"];
+       } else {
+           // No client with this code exists or belongs to another branch
+           $client_name = "";
+           $client_code = "";
+       }
 
-        // جلب قائمة أكواد العملاء المتاحة للبحث من جدول clients بناءً على كود الفرع الموجود في متغيرات جلسة
-        $sql = "SELECT client_code FROM clients WHERE status = 'not modified' AND branch_code = '{$_SESSION["branch_code"]}'";
-        $result = $conn->query($sql);
+       // Retrieve a list of client codes available for search from the clients table based on the branch code available in session variables
+       $sql = "SELECT client_code FROM clients WHERE status = 'not modified' AND branch_code = '{$_SESSION["branch_code"]}'";
+       $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            // إنشاء مصفوفة لحفظ أكواد العملاء
-            $client_codes = [];
-            while ($row = $result->fetch_assoc()) {
-                // إضافة كود العميل إلى المصفوفة
-                $client_codes[] = $row["client_code"];
-            }
-        } else {
-            // لا يوجد عملاء غير معدّلين أو ينتمون إلى فرع آخر
-            $client_codes = [];
-        }
-    } else {
-        // ليس للمستخدم حق التعديل
-        echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
-    }
+       if (isset($result) && $result->num_rows > 0) {
+           // Create an array to store client codes
+           $client_codes = array();
+           while ($row = $result->fetch_assoc()) {
+               // Add client code to the array
+               $client_codes[] = $row["client_code"];
+           }
+       } else {
+           // No unmodified clients exist or they belong to another branch
+           $client_codes = array();
+       }
+   } else {
+       // The user does not have permission to modify client data
+       echo "<script>alert('You do not have permission to modify client data');</script>";
+   }
 }
 
 // حفظ بيانات التعديل في قاعدة البيانات
