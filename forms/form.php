@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 // جلب بيانات العميل من قاعدة البيانات
-if (isset($_POST["search"])) {
+if (isset($_POST["search_code"])) {
     $search_code = $_POST["search_code"];
 
     // تحقق من صلاحية المستخدم للتعديل
