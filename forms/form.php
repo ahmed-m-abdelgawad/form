@@ -20,7 +20,7 @@ if (!empty($_POST["search_code"])) {
   $search_code = $_POST["search_code"];
 
     // تحقق من صلاحية المستخدم للتعديل
-    if ($_SESSION["permission"] == "له حق التعديل") {
+    if ($_SESSION[`permission`] == 'له حق التعديل') {
         // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
         $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
         $result = $conn->query($sql);
