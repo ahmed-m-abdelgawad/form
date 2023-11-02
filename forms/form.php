@@ -5,9 +5,10 @@ session_start();
 
 // اتصال بقاعدة بيانات MySQL باستخدام متغيرات جلسة
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "form_db";
+$username = $_SESSION['username'];
+$password = $_SESSION['password'];
+$dbname = $_SESSION['dbname'];
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -19,7 +20,7 @@ if (isset($_POST['search'])) {
   $search_code = $_POST['search_code'];
   
   // تحقق من صلاحية المستخدم للتعديل
-  if ($_SESSION['permission'] == 'ok') {
+  if ($_SESSION['permission'] == 'له حق التعديل') {
     // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
     $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION['branch_code']}'";
     $result = $conn->query($sql);
