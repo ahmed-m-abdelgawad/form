@@ -16,19 +16,10 @@ if ($conn->connect_error) {
 }
 
 // // جلب بيانات العميل من قاعدة البيانات
-// if (isset($_POST['search'])) {
-//   $search_code = $_POST['search_code'];
+if (!empty($_POST['search_code'])) {
+  $search_code = $_POST['search_code'];
   
-
-if (isset($_POST['search'])) {
-  // تحقق من وجود قيمة في حقل البحث
-  if (!empty($_POST['search_code'])) {
-    $search_code = $_POST['search_code'];
-    
-  }
-
-
-
+  
   // تحقق من صلاحية المستخدم للتعديل
   if ($_SESSION['permission'] == 'له حق التعديل') {
     // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
