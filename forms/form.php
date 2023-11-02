@@ -77,7 +77,7 @@ if (isset($_POST["submit"])) {
         }
 
         // إضافة بيانات التعديل في جدول modifications
-        $sql = "INSERT INTO modifications (client_code, client_name, coordinates, notes, date_time) VALUES ('$client_code', '$client_name', '$coordinates', '$notes', '$date_time')";
+        $sql = "INSERT INTO `modifications` (client_code, client_name, coordinates, notes, date_time) VALUES ('$client_code', '$client_name', '$coordinates', '$notes', '$date_time')";
         if ($conn->query($sql) === true) {
             echo "<script>alert('تم إضافة بيانات التعديل بنجاح');</script>";
         } else {
