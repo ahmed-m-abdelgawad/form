@@ -67,26 +67,26 @@ if (isset($_POST["submit"])) {
     $date_time = date("Y-m-d H:i:s");
 
     // تحقق من صلاحية المستخدم للتعديل
-    // if ($_SESSION["permission"] == "له حق التعديل") {
-    //     // تحديث حالة العميل في جدول clients إلى modified
-    //     $sql = "UPDATE clients SET status = 'modified' WHERE client_code = '$client_code'";
-    //     if ($conn->query($sql) === true) {
-    //         echo "<script>alert('تم تحديث حالة العميل بنجاح');</script>";
-    //     } else {
-    //         echo "<script>alert('حدث خطأ أثناء تحديث حالة العميل');</script>";
-    //     }
+    if ($_SESSION["permission"] == "له حق التعديل") {
+        // تحديث حالة العميل في جدول clients إلى modified
+        $sql = "UPDATE clients SET status = 'modified' WHERE client_code = '$client_code'";
+        if ($conn->query($sql) === true) {
+            echo "<script>alert('تم تحديث حالة العميل بنجاح');</script>";
+        } else {
+            echo "<script>alert('حدث خطأ أثناء تحديث حالة العميل');</script>";
+        }
 
-    //     // إضافة بيانات التعديل في جدول modifications
-    //     $sql = "INSERT INTO modifications (client_code, client_name, coordinates, notes, date_time) VALUES ('$client_code', '$client_name', '$coordinates', '$notes', '$date_time')";
-    //     if ($conn->query($sql) === true) {
-    //         echo "<script>alert('تم إضافة بيانات التعديل بنجاح');</script>";
-    //     } else {
-    //         echo "<script>alert('حدث خطأ أثناء إضافة بيانات التعديل');</script>";
-    //     }
-    // } else {
-    //     // ليس للمستخدم حق التعديل
-    //     echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
-    // }
+        // إضافة بيانات التعديل في جدول modifications
+        $sql = "INSERT INTO modifications (client_code, client_name, coordinates, notes, date_time) VALUES ('$client_code', '$client_name', '$coordinates', '$notes', '$date_time')";
+        if ($conn->query($sql) === true) {
+            echo "<script>alert('تم إضافة بيانات التعديل بنجاح');</script>";
+        } else {
+            echo "<script>alert('حدث خطأ أثناء إضافة بيانات التعديل');</script>";
+        }
+    } else {
+        // ليس للمستخدم حق التعديل
+        echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
+    }
 }
 
 // إغلاق الاتصال بقاعدة البيانات
