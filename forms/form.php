@@ -1,9 +1,6 @@
-// form.php
 <?php
 // بدء جلسة
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
 // اتصال بقاعدة بيانات MySQL باستخدام متغيرات جلسة
 $servername = "localhost";
