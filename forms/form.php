@@ -15,10 +15,19 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// جلب بيانات العميل من قاعدة البيانات
-if (isset($_POST['search'])) {
-  $search_code = $_POST['search_code'];
+// // جلب بيانات العميل من قاعدة البيانات
+// if (isset($_POST['search'])) {
+//   $search_code = $_POST['search_code'];
   
+
+if (isset($_POST['search'])) {
+  // تحقق من وجود قيمة في حقل البحث
+  if (!empty($_POST['search_code'])) {
+    $search_code = $_POST['search_code'];
+    
+
+
+
   // تحقق من صلاحية المستخدم للتعديل
   if ($_SESSION['permission'] == 'له حق التعديل') {
     // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
@@ -55,6 +64,13 @@ if (isset($_POST['search'])) {
   } else {
     // ليس للمستخدم حق التعديل
     echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
+  }
+
+
+    // باقي الكود كما هو
+  } else {
+    // إظهار رسالة خطأ للمستخدم
+    echo "<script>alert('يرجى إدخال كود العميل');</script>";
   }
 }
 
