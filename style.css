@@ -1,0 +1,22 @@
+
+/* style.css */
+/* تنسيق النموذج */
+form {
+  width: 500px;
+  margin: auto;
+  border: 1px solid black;
+  padding: 20px;
+}
+
+/* تنسيق حقول الإدخال */
+input, select, textarea {
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* تنسيق زر الإرسال */
+input[type=submit] {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+}
