@@ -25,6 +25,11 @@ if (isset($_POST['search'])) {
   if (!empty($_POST['search_code'])) {
     $search_code = $_POST['search_code'];
     
+    // باقي الكود كما هو
+  } else {
+    // إظهار رسالة خطأ للمستخدم
+    echo "<script>alert('يرجى إدخال كود العميل');</script>";
+  }
 
 
 
@@ -66,13 +71,10 @@ if (isset($_POST['search'])) {
     echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
   }
 
+  
 
-    // باقي الكود كما هو
-  } else {
-    // إظهار رسالة خطأ للمستخدم
-    echo "<script>alert('يرجى إدخال كود العميل');</script>";
-  }
 }
+
 
 // حفظ بيانات التعديل في قاعدة البيانات
 if (isset($_POST['submit'])) {
