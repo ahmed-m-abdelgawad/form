@@ -16,46 +16,118 @@ if ($conn->connect_error) {
 }
 
 // جلب بيانات العميل من قاعدة البيانات
-if (isset($_POST["search_code"])) {
-    $search_code = $_POST["search_code"];
+// if (isset($_POST["search_code"])) {
+//     $search_code = $_POST["search_code"];
 
-    // تحقق من صلاحية المستخدم للتعديل
-    if ($_SESSION[`permission`] == 'ok') {
-        // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
-        $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
-        $result = $conn->query($sql);
+//     // تحقق من صلاحية المستخدم للتعديل
+//     if ($_SESSION[`permission`] == 'ok') {
+//         // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
+//         $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
+//         $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            // جلب اسم وكود العميل
-            $row = $result->fetch_assoc();
-            $client_name = $row["client_name"];
-            $client_code = $row["client_code"];
-        } else {
-            // لا يوجد عميل بهذا الكود أو ينتمي إلى فرع آخر
-            $client_name = "";
-            $client_code = "";
-        }
+//         if ($result->num_rows > 0) {
+//             // جلب اسم وكود العميل
+//             $row = $result->fetch_assoc();
+//             $client_name = $row["client_name"];
+//             $client_code = $row["client_code"];
+//         } else {
+//             // لا يوجد عميل بهذا الكود أو ينتمي إلى فرع آخر
+//             $client_name = "";
+//             $client_code = "";
+//         }
 
-        // جلب قائمة أكواد العملاء المتاحة للبحث من جدول clients بناءً على كود الفرع الموجود في متغيرات جلسة
-        $sql = "SELECT client_code FROM clients WHERE status = 'not modified' AND branch_code = '{$_SESSION["branch_code"]}'";
-        $result = $conn->query($sql);
+//         // جلب قائمة أكواد العملاء المتاحة للبحث من جدول clients بناءً على كود الفرع الموجود في متغيرات جلسة
+//         $sql = "SELECT client_code FROM clients WHERE status = 'not modified' AND branch_code = '{$_SESSION["branch_code"]}'";
+//         $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            // إنشاء مصفوفة لحفظ أكواد العملاء
-            $client_codes = [];
-            while ($row = $result->fetch_assoc()) {
-                // إضافة كود العميل إلى المصفوفة
-                $client_codes[] = $row["client_code"];
-            }
-        } else {
-            // لا يوجد عملاء غير معدّلين أو ينتمون إلى فرع آخر
-            $client_codes = [];
-        }
-    } else {
-        // ليس للمستخدم حق التعديل
-        echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
-    }
+//         if ($result->num_rows > 0) {
+//             // إنشاء مصفوفة لحفظ أكواد العملاء
+//             $client_codes = [];
+//             while ($row = $result->fetch_assoc()) {
+//                 // إضافة كود العميل إلى المصفوفة
+//                 $client_codes[] = $row["client_code"];
+//             }
+//         } else {
+//             // لا يوجد عملاء غير معدّلين أو ينتمون إلى فرع آخر
+//             $client_codes = [];
+//         }
+//     } else {
+//         // ليس للمستخدم حق التعديل
+//         echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
+//     }
+// }
+
+if (isset($_POST["search"])) {
+
+  // تحقق من وجود قيمة لمفتاح search_code في مصفوفة $_POST
+  if (isset($_POST["search_code"])) {
+      $search_code = $_POST["search_code"];
+  } else {
+      $search_code = "";
+  }
+
+  // تحقق من صلاحية المستخدم للتعديل
+  if ($_SESSION[`permission`] == 'ok') {
+
+      // البحث عن العميل في جدول clients بناءً على كود العميل المدخل وكود الفرع الموجود في متغيرات جلسة
+      $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+
+          // جلب اسم وكود العميل
+          $row = $result->fetch_assoc();
+          $client_name = $row["client_name"];
+          $client_code = $row["client_code"];
+
+      } else {
+
+          // لا يوجد عميل بهذا الكود أو ينتمي إلى فرع آخر
+          $client_name = "";
+          $client_code = "";
+
+      }
+
+      // جلب قائمة أكواد العملاء المتاحة للبحث من جدول clients بناءً على كود الفرع الموجود في متغيرات جلسة
+      $sql = "SELECT client_code FROM clients WHERE status = 'not modified' AND branch_code = '{$_SESSION["branch_code"]}'";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+
+          // إنشاء مصفوفة لحفظ أكواد العملاء
+          $client_codes = [];
+          while ($row = $result->fetch_assoc()) {
+
+              // إضافة كود العميل إلى المصفوفة
+              $client_codes[] = $row["client_code"];
+
+          }
+
+      } else {
+
+          // لا يوجد عملاء غير معدّلين أو ينتمون إلى فرع آخر
+          $client_codes = [];
+
+      }
+
+  } else {
+
+      // ليس للمستخدم حق التعديل
+      echo "<script>alert('ليس لديك صلاحية لتعديل بيانات العملاء');</script>";
+
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
 
 // حفظ بيانات التعديل في قاعدة البيانات
 if (isset($_POST["submit"])) {
