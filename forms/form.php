@@ -62,7 +62,7 @@ if (!empty($_POST["search_code"])) {
   $search_code = $_POST["search_code"];
 
    // Check if the user has permission to make modifications
-   if ($_SESSION["permission"] == 'allowed to modify') {
+   if (isset($_SESSION["permission"]) && $_SESSION["permission"] == 'له حق التعديل') {
        // Search for the client in the clients table based on the client code entered by the user and the branch code available in session variables
        $sql = "SELECT client_name, client_code FROM clients WHERE client_code = '$search_code' AND branch_code = '{$_SESSION["branch_code"]}'";
        $result = $conn->query($sql);
